@@ -1,0 +1,1299 @@
+/* RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: var(--bg-color-dark);
+    color: var(--text-color);
+    position: relative;
+    z-index: 0;
+    overflow-x: hidden; /* Garante que não haja barra de rolagem horizontal */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: contain;
+}
+
+input, button, select, textarea {
+    font-size: 16px; /* Evita zoom automático no iOS ao focar */
+}
+
+/* MÁSCARA ESCURA GLOBAL */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: var(--bg-color-dark); /* Fundo dinâmico baseado no tema */
+    z-index: -1;
+}
+
+/* --- Transições suaves para mudança de tema --- */
+*,
+*::before,
+*::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Evita transições em inputs para melhor UX */
+input, textarea, select {
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* --- Variáveis CSS (Padrão Dark Theme) --- */
+:root {
+    --bg-color-dark: #000000;
+    --bg-color-medium: #000000;
+    --bg-color-light: #000000;
+    --text-color: #ffffff;
+    --secondary-text-color: #ffffff;
+    --border-color: #ffffff;
+    --button-bg: #000000;
+    --button-hover-bg: #111111;
+    --spacing-unit: 1rem;
+}
+
+
+/* --- Contêiner principal para o vídeo de fundo de tecnologia --- */
+.video-background-container {
+    width: 100vw; /* Garante que ocupe toda a largura da tela */
+    padding: 0; /* Remove padding lateral */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Substitua pela URL da sua imagem de fundo de tecnologia */
+    background-image: url('https://i.imgur.com/your-tech-pattern.jpg'); 
+    background-repeat: repeat;
+    background-size: contain; /* Ajusta o tamanho da imagem para cobrir o contêiner */
+    background-color: var(--bg-color-dark); /* Cor de fundo dinâmica */
+}
+
+/* --- Contêiner do Vídeo Dcodeanimation e Faixa PlayStation --- */
+.video-container {
+    position: relative; /* Contexto de posicionamento para a faixa */
+    width: 100vw; /* Ocupa toda a largura da tela */
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column; /* Empilha vídeo e faixa */
+    align-items: center; /* Centraliza o vídeo e a faixa horizontalmente */
+    padding: 0; /* Remove padding duplicado se houver */
+    margin-bottom: 0; /* Remove margin duplicado se houver */
+    background: var(--bg-color-dark); /* Usar cor de fundo do tema ativo */
+}
+
+.video-container .video {
+    width: 100%; /* Mantém o vídeo ocupando toda a largura do contêiner */
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 8px; /* Espaço entre o vídeo e a faixa */
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* --- Faixa de cor estilo PlayStation --- */
+.playstation-stripe {
+    position: absolute;
+    /* bottom: -10px; */ /* Ajuste a distância da faixa abaixo do vídeo */
+    bottom: -15px; /* Valor ajustado para melhor visibilidade */
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, #0070d1, #41b883, #ffcc00, #e40046, #0070d1); /* Cores do PlayStation */
+    background-size: 400% 100%; /* Permite o movimento do gradiente */
+    border-radius: 2px;
+    animation: playstation-color-change 5s infinite linear;
+}
+
+@keyframes playstation-color-change {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 400% 0%;
+    }
+}
+
+
+/* --- HEADER PRINCIPAL --- */
+header {
+    position: relative; /* Para possíveis elementos posicionados absolutos dentro */
+    width: 100%;
+    background: var(--bg-color-medium); /* Cor de fundo do header */
+    display: flex;
+    flex-direction: column; /* Para empilhar mês e ações do estoque */
+    align-items: center;
+    padding: 1rem; /* Padding geral do header */
+    padding-top: 50px; /* Espaço para o botão de tema */
+    z-index: 1; /* Garante que fique acima da máscara */
+}
+
+/* --- Navegação de Mês --- */
+.month-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 var(--spacing-unit);
+    margin-bottom: 10px;
+}
+
+.month-navigation button,
+.stock-actions button {
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.month-navigation button:hover,
+.stock-actions button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* Estilo do wrapper que contém o mês (já existia, mas organizei) */
+.mes-centralizado-wrapper {
+    width: 100%;
+    /* height: 80px; */ /* Removi altura fixa, o padding deve ser suficiente */
+    background-color: transparent; /* Transparente para ver o fundo do header */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    user-select: none;
+    padding: 0.5rem 0; /* Ajustado para flexibilidade */
+}
+
+/* Estilo do texto do mês (já existia, mas organizei) */
+#mesAtual {
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--secondary-text-color);
+    text-align: center;
+    flex-grow: 1; /* Permite que ocupe o espaço disponível */
+    margin: 0 10px;
+}
+
+/* --- Ações do Estoque --- */
+.stock-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 var(--spacing-unit);
+    margin-bottom: var(--spacing-unit);
+}
+
+.stock-actions .nav-button {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+#nomeEstoqueInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    background: var(--bg-color-light);
+    color: var(--text-color);
+    font-size: 1rem;
+    text-align: center;
+    flex-grow: 1;
+    margin: 0 10px;
+}
+
+
+/* --- Main Content & Table (Mantido como estava) --- */
+main,
+#resultadoFinal,
+#registroOperacoes {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 var(--spacing-unit);
+}
+
+.table-responsive {
+    width: 100%;
+    margin-bottom: var(--spacing-unit);
+}
+
+table.estoque-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.estoque-table th,
+table.estoque-table td {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    text-align: center;
+    font-size: 0.9rem;
+    word-wrap: break-word;
+}
+
+table.estoque-table th:nth-child(1),
+table.estoque-table td:nth-child(1) { width: 40%; }
+table.estoque-table th:nth-child(2),
+table.estoque-table td:nth-child(2) { width: 20%; }
+table.estoque-table th:nth-child(3),
+table.estoque-table td:nth-child(3) { width: 20%; }
+table.estoque-table th:nth-child(4),
+table.estoque-table td:nth-child(4) { width: 20%; }
+
+table.estoque-table input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0;
+}
+
+table.estoque-table input:focus {
+    outline: 1px solid var(--border-color);
+    background: var(--button-bg);
+}
+
+/* --- Charts (Mantido como estava) --- */
+.graficos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-unit);
+    padding: 0 var(--spacing-unit);
+}
+
+.grafico-container {
+    flex: 1 1 300px;
+    min-width: 280px;
+}
+
+.graficos-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit);
+    padding: 0 var(--spacing-unit);
+    margin-top: var(--spacing-unit);
+}
+
+.grafico-meio {
+    flex: 1 1 50%;
+    min-width: 280px;
+}
+
+#graficoSaidas-container {
+    margin-top: var(--spacing-unit);
+    width: 100%;
+    padding: 0 var(--spacing-unit);
+}
+
+/* --- Results & History (Mantido como estava) --- */
+#resultadoFinal {
+    padding: 20px;
+    text-align: center;
+    background: var(--bg-color-medium);
+    margin-top: var(--spacing-unit);
+    border-radius: 8px;
+}
+
+#registroOperacoes {
+    position: relative;
+    background: var(--bg-color-medium);
+    padding: 20px;
+    border-radius: 8px;
+    font-family: monospace;
+    margin-top: var(--spacing-unit);
+    margin-bottom: var(--spacing-unit);
+}
+
+#registroOperacoes ul {
+    list-style: none;
+    padding-left: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 4px;
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+}
+
+#registroOperacoes ul li {
+    padding: 4px 0;
+    border-bottom: 1px dashed var(--border-color);
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+}
+
+#registroOperacoes ul li:last-child {
+    border-bottom: none;
+}
+
+#btnLimparHistorico {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 0;
+}
+
+#btnLimparHistorico:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+/* --- Validation Styles --- */
+.input-erro {
+    border: 2px solid #ff4444 !important;
+    background-color: rgba(255, 68, 68, 0.1) !important;
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+/* --- Theme Toggle Styles --- */
+.theme-toggle {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: var(--button-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 4px;
+    outline: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle:hover {
+    transform: translateX(-50%) scale(1.1);
+    background: var(--button-hover-bg);
+    border-color: var(--text-color);
+}
+
+/* --- Responsividade para o botão de tema --- */
+@media (max-width: 768px) {
+    .theme-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 24px;
+        top: 8px;
+    }
+    
+    header {
+        padding-top: 55px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-toggle {
+        width: 28px;
+        height: 28px;
+        font-size: 20px;
+        top: 5px;
+    }
+    
+    header {
+        padding-top: 50px;
+    }
+}
+
+/* --- Validação de Input --- */
+.input-erro {
+    border-color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.1);
+}
+
+/* TEMA DARK (padrão) */
+:root,
+:root[data-theme="dark"],
+body[data-theme="dark"] {
+    --bg-color-dark: #000000;
+    --bg-color-medium: #000000;
+    --bg-color-light: #000000;
+    --text-color: #ffffff;
+    --secondary-text-color: #ffffff;
+    --border-color: #ffffff;
+    --button-bg: #000000;
+    --button-hover-bg: #111111;
+}
+
+/* TEMA LIGHT */
+:root[data-theme="light"],
+body[data-theme="light"] {
+    --bg-color-dark: #ffffff;
+    --bg-color-medium: #f8f9fa;
+    --bg-color-light: #ffffff;
+    --text-color: #000000;
+    --secondary-text-color: #333333;
+    --border-color: #cccccc;
+    --button-bg: #f8f9fa;
+    --button-hover-bg: #e9ecef;
+}
+
+/* Elementos principais - DARK */
+:root header,
+:root[data-theme="dark"] header,
+:root main,
+:root[data-theme="dark"] main,
+:root #resultadoFinal,
+:root[data-theme="dark"] #resultadoFinal,
+:root #registroOperacoes,
+:root[data-theme="dark"] #registroOperacoes,
+:root .graficos-top,
+:root[data-theme="dark"] .graficos-top,
+:root #graficoValores-container,
+:root[data-theme="dark"] #graficoValores-container,
+:root table.estoque-table th,
+:root[data-theme="dark"] table.estoque-table th,
+:root table.estoque-table td,
+:root[data-theme="dark"] table.estoque-table td {
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+/* Elementos principais - LIGHT */
+:root[data-theme="light"] header,
+:root[data-theme="light"] main,
+:root[data-theme="light"] #resultadoFinal,
+:root[data-theme="light"] #registroOperacoes,
+:root[data-theme="light"] .graficos-top,
+:root[data-theme="light"] #graficoValores-container,
+:root[data-theme="light"] table.estoque-table th,
+:root[data-theme="light"] table.estoque-table td {
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+/* Inputs - DARK */
+:root input,
+:root[data-theme="dark"] input,
+:root input[type="text"],
+:root[data-theme="dark"] input[type="text"],
+:root input[type="number"],
+:root[data-theme="dark"] input[type="number"],
+:root input[type="date"],
+:root[data-theme="dark"] input[type="date"],
+:root input[type="email"],
+:root[data-theme="dark"] input[type="email"],
+:root input[type="search"],
+:root[data-theme="dark"] input[type="search"],
+:root textarea,
+:root[data-theme="dark"] textarea,
+:root select,
+:root[data-theme="dark"] select {
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Inputs - LIGHT */
+:root[data-theme="light"] input,
+:root[data-theme="light"] input[type="text"],
+:root[data-theme="light"] input[type="number"],
+:root[data-theme="light"] input[type="date"],
+:root[data-theme="light"] input[type="email"],
+:root[data-theme="light"] input[type="search"],
+:root[data-theme="light"] textarea,
+:root[data-theme="light"] select {
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Focus states */
+input:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="email"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+    background: var(--button-hover-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    outline: 1px solid var(--border-color);
+}
+
+/* --- Media Queries (Ajustadas para remover duplicações e garantir que as novas estruturas sejam responsivas) --- */
+@media screen and (max-width: 768px) {
+    .graficos {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .graficos-top {
+        flex-direction: column;
+    }
+
+    .grafico-meio {
+        min-width: 100%;
+    }
+
+    #graficoSaidas-container {
+        padding: 0;
+    }
+
+    /* Header e Navegação de Mês */
+    header {
+        flex-direction: column; /* Empilha itens */
+        padding-left: 0; /* Remove padding-left específico para mobile */
+        height: auto;
+    }
+
+    .video-background-container {
+        padding-bottom: 0.5rem;
+        padding-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .video-container {
+        width: 180px; /* Ajuste a largura do vídeo para telas menores */
+    }
+
+    .month-navigation {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 5px;
+        padding: 0 0.5rem;
+    }
+
+    .month-navigation button {
+        width: auto;
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+
+    #mesAtual {
+        text-align: center;
+        font-size: 1.5rem;
+        width: 100%;
+        display: block;
+        font-weight: bold;
+        margin: 0 5px; /* Ajuste o margin para centralizar melhor */
+    }
+
+    .mes-centralizado-wrapper {
+        padding: 0.5rem 0;
+    }
+
+    /* Ações do Estoque */
+    .stock-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0.5rem;
+        gap: 5px;
+        flex-wrap: wrap; /* Permite quebra se necessário */
+    }
+
+    #nomeEstoqueInput {
+        flex-grow: 1;
+        max-width: none;
+        width: auto;
+        font-size: 1rem;
+        margin: 0 5px;
+    }
+
+    .stock-actions .nav-button {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+    }
+
+    /* Responsive table for smaller screens */
+    table.estoque-table th,
+    table.estoque-table td {
+        padding: 4px;
+        font-size: 0.75rem;
+    }
+    table.estoque-table input {
+        font-size: 0.75rem;
+        padding: 1px;
+    }
+
+    #controleEstoque { /* Regra para este ID que não estava no HTML, mas mantive a estrutura para caso adicione */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    #controleEstoque input {
+        width: 100px;
+        text-align: center;
+        font-weight: bold;
+    }
+}
+
+/* Landscape orientation for smaller screens (e.g., phones) */
+@media screen and (max-height: 450px) and (orientation: landscape) {
+    header {
+        padding: 0.5rem;
+    }
+    .video-background-container {
+        margin-bottom: 0.5rem;
+        padding-top: 0.2rem; /* Reduzir um pouco mais */
+        padding-bottom: 0.2rem; /* Reduzir um pouco mais */
+    }
+    .video-container {
+        width: 150px; /* Ajuste para telas paisagem pequenas */
+    }
+    .month-navigation,
+    .stock-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 0.5rem;
+        margin-bottom: 5px;
+        flex-wrap: wrap;
+    }
+    .month-navigation button,
+    .stock-actions button {
+        width: auto;
+        max-width: none;
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    #mesAtual, #nomeEstoqueInput {
+        margin: 0 5px;
+        font-size: 1rem;
+        max-width: 120px;
+    }
+    main,
+    #resultadoFinal,
+    #registroOperacoes {
+        padding: 0 0.5rem;
+    }
+    table.estoque-table th,
+    table.estoque-table td {
+        padding: 3px;
+        font-size: 0.7rem;
+    }
+    table.estoque-table input {
+        font-size: 0.7rem;
+        padding: 0px;
+    }
+    .graficos-top, #graficoSaidas-container {
+        margin-top: 0.5rem;
+        padding: 0 0.5rem;
+    }
+    #registroOperacoes ul {
+        max-height: 80px;
+    }
+    #resultadoFinal p {
+        font-size: 0.8rem;
+    }
+}
+
+/* --- Ajustes para iPhone/iOS --- */
+html, body {
+    overscroll-behavior: none;
+}
+
+.video-background-container,
+.video-container {
+    width: 100%; /* Evita problemas de scroll horizontal no iOS */
+    max-width: 100vw;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    button, .stock-actions .nav-button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* --- Regras adicionais para forçar tema em todos os elementos --- */
+
+/* Força o tema em elementos específicos */
+body,
+html,
+header,
+main,
+#resultadoFinal,
+#registroOperacoes,
+.graficos-top,
+#graficoValores-container,
+.video-background-container,
+.video-container {
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+}
+
+/* Botões e elementos interativos */
+button,
+.nav-button,
+.month-navigation button,
+.stock-actions button,
+#btnLimparHistorico {
+    background: var(--button-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+button:hover,
+.nav-button:hover,
+.month-navigation button:hover,
+.stock-actions button:hover,
+#btnLimparHistorico:hover {
+    background: var(--button-hover-bg);
+    color: var(--text-color);
+}
+
+/* Inputs e formulários */
+input,
+input[type="text"],
+input[type="number"], 
+input[type="date"],
+input[type="email"],
+input[type="search"],
+textarea,
+select,
+#nomeEstoqueInput {
+    background: var(--bg-color-light);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Tabelas */
+table,
+table.estoque-table,
+table.estoque-table th,
+table.estoque-table td,
+table.estoque-table input {
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+/* Gráficos e containers */
+.graficos,
+.grafico-container,
+.grafico-meio,
+#graficoSaidas-container {
+    background: var(--bg-color-dark);
+    color: var(--text-color);
+}
+
+/* Menu e navegação */
+.mes-centralizado-wrapper,
+.month-navigation,
+.stock-actions {
+    background: transparent;
+    color: var(--text-color);
+}
+
+#mesAtual {
+    color: var(--secondary-text-color);
+}
+
+/* === DEFINIÇÃO DE CORES DOS BOTÕES CORRIGIDO === */
+
+/* BOTÕES PRINCIPAIS - Cores fixas */
+#btnShare,
+#btnNotify {
+    color: #ffffff !important;
+}
+
+#btnNotify svg {
+    fill: none !important;
+    stroke: #ffffff !important;
+}
+
+#btnShare svg {
+    fill: none !important;
+    stroke: #ffffff !important;
+}
+
+.theme-toggle {
+    color: #ffffff !important;
+    font-size: 20px !important;
+}
+
+/* Força aplicação em ambos os temas */
+[data-theme="dark"] #btnShare,
+[data-theme="dark"] #btnNotify,
+[data-theme="light"] #btnShare,
+[data-theme="light"] #btnNotify {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] #btnShare svg,
+[data-theme="dark"] #btnNotify svg,
+[data-theme="light"] #btnShare svg,
+[data-theme="light"] #btnNotify svg {
+    fill: none !important;
+    stroke: #ffffff !important;
+}
+
+/* ÍCONES DO MENU - Cores fixas nos SVGs (definidas diretamente nos elementos) */
+
+/* --- Tema específico para data-theme="light" --- */
+[data-theme="light"] body,
+[data-theme="light"] html,
+[data-theme="light"] header,
+[data-theme="light"] main,
+[data-theme="light"] #resultadoFinal,
+[data-theme="light"] #registroOperacoes,
+[data-theme="light"] .graficos-top,
+[data-theme="light"] #graficoValores-container,
+[data-theme="light"] .video-background-container,
+[data-theme="light"] .video-container,
+[data-theme="light"] .graficos,
+[data-theme="light"] .grafico-container,
+[data-theme="light"] .grafico-meio,
+[data-theme="light"] #graficoSaidas-container,
+[data-theme="light"] table,
+[data-theme="light"] table.estoque-table,
+[data-theme="light"] table.estoque-table th,
+[data-theme="light"] table.estoque-table td {
+    background: var(--bg-color-dark) !important;
+    color: var(--text-color) !important;
+}
+
+[data-theme="light"] input,
+[data-theme="light"] input[type="text"],
+[data-theme="light"] input[type="number"], 
+[data-theme="light"] input[type="date"],
+[data-theme="light"] input[type="email"],
+[data-theme="light"] input[type="search"],
+[data-theme="light"] textarea,
+[data-theme="light"] select,
+[data-theme="light"] #nomeEstoqueInput,
+[data-theme="light"] table.estoque-table input {
+    background: var(--bg-color-light) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="light"] button,
+[data-theme="light"] .nav-button,
+[data-theme="light"] .month-navigation button,
+[data-theme="light"] .stock-actions button {
+    background: var(--button-bg) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="light"] #mesAtual {
+    color: var(--secondary-text-color) !important;
+}
+
+[data-theme="light"] #registroOperacoes ul,
+[data-theme="light"] #registroOperacoes ul li {
+    background: var(--bg-color-dark) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* --- Correções específicas para dispositivos móveis --- */
+@media screen and (max-width: 768px) {
+    /* Garantir que o video container não tenha faixa cinza */
+    .video-container,
+    .video-background-container {
+        background: var(--bg-color-dark) !important;
+    }
+    
+    /* Forçar tema em todos os elementos para mobile */
+    body, html, header, main, 
+    #resultadoFinal, #registroOperacoes,
+    .graficos-top, #graficoValores-container {
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+    }
+    
+    /* Histórico específico para mobile */
+    #registroOperacoes,
+    #registroOperacoes ul,
+    #registroOperacoes ul li {
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    /* Inputs para mobile */
+    input, input[type="text"], input[type="number"], 
+    input[type="date"], textarea, select, #nomeEstoqueInput {
+        background: var(--bg-color-light) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+    
+    /* Tabelas para mobile */
+    table.estoque-table,
+    table.estoque-table th,
+    table.estoque-table td,
+    table.estoque-table input {
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    /* Botões para mobile */
+    button, .nav-button, 
+    .month-navigation button,
+    .stock-actions button {
+        background: var(--button-bg) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+}
+
+/* --- Tema Light específico para mobile --- */
+@media screen and (max-width: 768px) {
+    [data-theme="light"] body,
+    [data-theme="light"] html,
+    [data-theme="light"] header,
+    [data-theme="light"] main,
+    [data-theme="light"] #resultadoFinal,
+    [data-theme="light"] #registroOperacoes,
+    [data-theme="light"] .graficos-top,
+    [data-theme="light"] #graficoValores-container,
+    [data-theme="light"] .video-container,
+    [data-theme="light"] .video-background-container {
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+    }
+    
+    [data-theme="light"] #registroOperacoes,
+    [data-theme="light"] #registroOperacoes ul,
+    [data-theme="light"] #registroOperacoes ul li {
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    [data-theme="light"] input,
+    [data-theme="light"] input[type="text"],
+    [data-theme="light"] input[type="number"], 
+    [data-theme="light"] input[type="date"],
+    [data-theme="light"] textarea,
+    [data-theme="light"] select,
+    [data-theme="light"] #nomeEstoqueInput {
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+    
+    [data-theme="light"] table.estoque-table,
+    [data-theme="light"] table.estoque-table th,
+    [data-theme="light"] table.estoque-table td,
+    [data-theme="light"] table.estoque-table input {
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    [data-theme="light"] button,
+    [data-theme="light"] .nav-button,
+    [data-theme="light"] .month-navigation button,
+    [data-theme="light"] .stock-actions button {
+        background: var(--button-bg) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+}
+
+/* --- Força aplicação do tema em todas as situações mobile --- */
+@media screen and (max-width: 768px), (pointer: coarse) {
+    /* Force theme application on all elements for mobile */
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+    }
+    
+    /* Específico para WebKit (Safari mobile) */
+    body, html {
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        -webkit-background-clip: padding-box !important;
+        background-clip: padding-box !important;
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+    }
+    
+    /* Força tema em containers principais */
+    .video-background-container,
+    .video-container,
+    header,
+    main,
+    #resultadoFinal,
+    #registroOperacoes {
+        background: var(--bg-color-dark) !important;
+        color: var(--text-color) !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+    }
+    
+    /* Força tema em inputs para mobile */
+    input, textarea, select {
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        -webkit-background-clip: padding-box !important;
+        background-clip: padding-box !important;
+        background: var(--bg-color-light) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+    
+    /* Tema light forçado para mobile */
+    [data-theme="light"] {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    [data-theme="light"] .video-background-container,
+    [data-theme="light"] .video-container,
+    [data-theme="light"] header,
+    [data-theme="light"] main,
+    [data-theme="light"] #resultradoFinal,
+    [data-theme="light"] #registroOperacoes,
+    [data-theme="light"] #registroOperacoes ul,
+    [data-theme="light"] #registroOperacoes ul li {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border-color: #cccccc !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+    }
+    
+    [data-theme="light"] input,
+    [data-theme="light"] textarea,
+    [data-theme="light"] select,
+    [data-theme="light"] #nomeEstoqueInput {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+    }
+}
+
+/* --- Estilos para botões de compartilhamento SEM CAIXAS --- */
+.share-icon-btn {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px !important;
+    min-height: 24px !important;
+}
+
+.share-icon-btn:hover {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: scale(1.1);
+}
+
+.share-icon-btn:active {
+    transform: scale(0.95);
+}
+
+.share-icon-btn:focus {
+    outline: none !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* SVGs dos botões usam currentColor para herdar a cor do tema */
+.share-icon-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Exceto o WhatsApp que mantém sua cor verde */
+#shareWhatsapp svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* WhatsApp também sem fundo no hover */
+#shareWhatsapp:hover {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Tema light específico para botões de compartilhamento SEM CAIXAS */
+[data-theme="light"] .share-icon-btn {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .share-icon-btn:hover {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .share-icon-btn:focus {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+[data-theme="light"] #shareWhatsapp:hover {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* --- Botão principal de compartilhamento SEM CAIXA --- */
+#btnShare {
+    background: none !important;
+    border: none !important;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0 !important;
+    margin: 0 !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px !important;
+    min-height: 24px !important;
+}
+
+#btnShare:hover {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: scale(1.1);
+}
+
+#btnShare:active {
+    transform: scale(0.95);
+}
+
+#btnShare:focus {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+#btnShare svg {
+    width: 24px;
+    height: 24px;
+}
+
+[data-theme="light"] #btnShare {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] #btnShare:hover {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] #btnShare:focus {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Menu de compartilhamento responsivo SEM CAIXAS */
+@media screen and (max-width: 768px) {
+    #shareMenu {
+        right: 8px !important;
+        top: 50px !important;
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        gap: 16px !important;
+    }
+    
+    .share-icon-btn {
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        min-width: 24px !important;
+        min-height: 24px !important;
+    }
+    
+    .share-icon-btn:hover,
+    .share-icon-btn:focus,
+    .share-icon-btn:active {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+}
+
+
+
