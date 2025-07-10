@@ -1261,6 +1261,94 @@ table.estoque-table input {
     outline: none !important;
 }
 
+/* Botão de idioma - tema claro */
+[data-theme="light"] #btnLanguage,
+[data-theme="light"] .language-button {
+    background-color: #007bff !important;
+    color: #ffffff !important;
+    border: 1px solid #0056b3 !important;
+}
+
+[data-theme="light"] #btnLanguage:hover,
+[data-theme="light"] .language-button:hover {
+    background-color: #0056b3 !important;
+    color: #ffffff !important;
+    transform: scale(1.05) !important;
+}
+
+[data-theme="light"] #btnLanguage:focus,
+[data-theme="light"] .language-button:focus {
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3) !important;
+    background-color: #0056b3 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] #btnLanguage .country-flag,
+[data-theme="light"] .language-button .country-flag {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+/* Botão de toggle do tema - tema claro */
+[data-theme="light"] #themeToggleTop {
+    background-color: #ff6b6b !important;
+    color: #ffffff !important;
+    border: 1px solid #e85656 !important;
+}
+
+[data-theme="light"] #themeToggleTop:hover {
+    background-color: #e85656 !important;
+    color: #ffffff !important;
+    transform: scale(1.05) !important;
+}
+
+[data-theme="light"] #themeToggleTop:focus {
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.3) !important;
+    background-color: #e85656 !important;
+    color: #ffffff !important;
+}
+
+/* Botões de login e premium - tema claro */
+[data-theme="light"] .login-button,
+[data-theme="light"] #btnLogin {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+    border: 1px solid #1e7e34 !important;
+}
+
+[data-theme="light"] .login-button:hover,
+[data-theme="light"] #btnLogin:hover {
+    background-color: #218838 !important;
+    color: #ffffff !important;
+    transform: scale(1.05) !important;
+}
+
+[data-theme="light"] .premium-button,
+[data-theme="light"] #btnPremium {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+    border: 1px solid #e0a800 !important;
+}
+
+[data-theme="light"] .premium-button:hover,
+[data-theme="light"] #btnPremium:hover {
+    background-color: #e0a800 !important;
+    color: #212529 !important;
+    transform: scale(1.05) !important;
+}
+
+/* Garantir visibilidade de todos os SVGs nos botões do header no tema claro */
+[data-theme="light"] .top-bar-app button svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] #btnPremium svg,
+[data-theme="light"] .premium-button svg {
+    stroke: #212529 !important;
+    color: #212529 !important;
+}
+
 /* Menu de compartilhamento responsivo SEM CAIXAS */
 @media screen and (max-width: 768px) {
     #shareMenu {

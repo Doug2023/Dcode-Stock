@@ -1727,11 +1727,33 @@
         /* === LAYOUT LIMPO - SEM CONTAINERS DESNECESSÁRIOS === */
 
         /* === BOTÕES DE COMPARTILHAMENTO ULTRA-MODERNOS === */
+        /* Força aparência consistente independente do tema */
+        #shareWhatsapp, #shareEmail, #sharePdf {
+            position: relative !important;
+            overflow: hidden !important;
+            transform: translateZ(0) !important;
+            background: rgba(30, 30, 30, 0.8) !important; /* Sempre escuro */
+            border: 2px solid rgba(255, 255, 255, 0.1) !important; /* Sempre borda sutil */
+            border-radius: 12px !important;
+            padding: 12px !important;
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            width: 48px !important;
+            height: 48px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        /* Estados hover sempre com cores específicas de cada serviço */
         #shareWhatsapp:hover {
             background: #1ebe57 !important;
             transform: translateY(-8px) scale(1.05) !important;
             box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5) !important;
             border-radius: 16px !important;
+            border-color: #1ebe57 !important;
         }
 
         #shareEmail:hover {
@@ -1739,6 +1761,7 @@
             transform: translateY(-8px) scale(1.05) !important;
             box-shadow: 0 12px 30px rgba(234, 67, 53, 0.5) !important;
             border-radius: 16px !important;
+            border-color: #d33b2c !important;
         }
 
         #sharePdf:hover {
@@ -1746,56 +1769,87 @@
             transform: translateY(-8px) scale(1.05) !important;
             box-shadow: 0 12px 30px rgba(255, 87, 34, 0.5) !important;
             border-radius: 16px !important;
+            border-color: #e64a19 !important;
         }
 
+        /* Menu de compartilhamento sempre escuro para contraste */
         #shareMenu {
+            background: rgba(20, 20, 20, 0.95) !important; /* Sempre escuro */
+            border: 2px solid rgba(255, 255, 255, 0.1) !important; /* Sempre borda sutil */
             backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            background: rgba(var(--bg-color-dark-rgb, 20, 20, 20), 0.9) !important;
+            color: #ffffff !important; /* Sempre texto branco */
         }
 
-        /* Botões de compartilhamento com ícones otimizados */
-        #shareWhatsapp, #shareEmail, #sharePdf {
-            position: relative;
-            overflow: hidden;
-            transform: translateZ(0);
+        /* Força temas nos botões - SEMPRE a mesma aparência */
+        :root[data-theme="light"] #shareWhatsapp,
+        :root[data-theme="light"] #shareEmail,
+        :root[data-theme="light"] #sharePdf,
+        body[data-theme="light"] #shareWhatsapp,
+        body[data-theme="light"] #shareEmail,
+        body[data-theme="light"] #sharePdf {
+            background: rgba(30, 30, 30, 0.8) !important; /* Sempre escuro mesmo no tema claro */
+            border: 2px solid rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
         }
 
-        #shareWhatsapp:hover {
-            background: #1faa52 !important;
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5) !important;
+        /* Estados hover mantidos iguais no tema claro */
+        :root[data-theme="light"] #shareWhatsapp:hover,
+        body[data-theme="light"] #shareWhatsapp:hover {
+            background: #1ebe57 !important;
+            border-color: #1ebe57 !important;
         }
 
-        #shareEmail:hover {
+        :root[data-theme="light"] #shareEmail:hover,
+        body[data-theme="light"] #shareEmail:hover {
             background: #d33b2c !important;
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(234, 67, 53, 0.5) !important;
+            border-color: #d33b2c !important;
         }
 
-        #sharePdf:hover {
-            background: #e64919 !important;
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.5) !important;
+        :root[data-theme="light"] #sharePdf:hover,
+        body[data-theme="light"] #sharePdf:hover {
+            background: #e64a19 !important;
+            border-color: #e64a19 !important;
+        }
+
+        /* Menu sempre escuro em qualquer tema */
+        :root[data-theme="light"] #shareMenu,
+        body[data-theme="light"] #shareMenu {
+            background: rgba(20, 20, 20, 0.95) !important; /* Sempre escuro */
+            border: 2px solid rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
         }
 
         /* Garantir que os SVGs dos botões sejam sempre visíveis */
         #shareWhatsapp svg,
         #shareEmail svg,
-        #sharePdf svg {
+        #sharePdf svg,
+        :root[data-theme="light"] #shareWhatsapp svg,
+        :root[data-theme="light"] #shareEmail svg,
+        :root[data-theme="light"] #sharePdf svg,
+        body[data-theme="light"] #shareWhatsapp svg,
+        body[data-theme="light"] #shareEmail svg,
+        body[data-theme="light"] #sharePdf svg {
             fill: #ffffff !important;
             color: #ffffff !important;
             stroke: none !important;
             display: block !important;
-            pointer-events: none;
+            pointer-events: none !important;
+            width: 20px !important;
+            height: 20px !important;
         }
 
         /* Efeito de ripple nos botões */
         #shareWhatsapp:active,
         #shareEmail:active,
-        #sharePdf:active {
-            transform: translateY(0) scale(0.98);
+        #sharePdf:active,
+        :root[data-theme="light"] #shareWhatsapp:active,
+        :root[data-theme="light"] #shareEmail:active,
+        :root[data-theme="light"] #sharePdf:active,
+        body[data-theme="light"] #shareWhatsapp:active,
+        body[data-theme="light"] #shareEmail:active,
+        body[data-theme="light"] #sharePdf:active {
+            transform: translateY(0) scale(0.98) !important;
         }
 
         /* === MENU DE IDIOMAS === */
@@ -2048,7 +2102,18 @@
         .top-bar-app .language-button,
         .top-bar-app #themeToggleTop,
         .top-bar-app #btnShare,
-        .top-bar-app #btnNotify,
+        .top-bar-app #btnNotify {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            opacity: 1 !important; /* SEMPRE VISÍVEL */
+            visibility: visible !important; /* SEMPRE VISÍVEL */
+            display: inline-flex !important; /* SEMPRE VISÍVEL */
+        }
+        
+        /* Para tema claro - permitir backgrounds coloridos */
         body[data-theme="light"] .top-bar-app .login-button,
         body[data-theme="light"] .top-bar-app .premium-button,
         body[data-theme="light"] .top-bar-app .language-button,
@@ -2061,9 +2126,9 @@
         :root[data-theme="light"] .top-bar-app #themeToggleTop,
         :root[data-theme="light"] .top-bar-app #btnShare,
         :root[data-theme="light"] .top-bar-app #btnNotify {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
+            background: initial !important; /* Permitir background personalizado */
+            border: initial !important; /* Permitir border personalizada */
+            box-shadow: initial !important; /* Permitir shadow personalizada */
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
             opacity: 1 !important; /* SEMPRE VISÍVEL */
@@ -2118,13 +2183,19 @@
             color: #9C27B0 !important; /* Roxo vibrante */
         }
 
-        /* Estados hover - APENAS COR, SEM CAIXAS */
+        /* Estados hover - APENAS COR, SEM CAIXAS para tema escuro */
         .top-bar-app .login-button:hover,
         .top-bar-app .premium-button:hover,
         .top-bar-app .language-button:hover,
         .top-bar-app #themeToggleTop:hover,
         .top-bar-app #btnShare:hover,
-        .top-bar-app #btnNotify:hover,
+        .top-bar-app #btnNotify:hover {
+            background: transparent !important; /* Sem fundo */
+            border: none !important; /* Sem borda */
+            box-shadow: none !important; /* Sem sombra */
+        }
+        
+        /* Estados hover para tema claro - permitir backgrounds */
         body[data-theme="light"] .top-bar-app .login-button:hover,
         body[data-theme="light"] .top-bar-app .premium-button:hover,
         body[data-theme="light"] .top-bar-app .language-button:hover,
@@ -2137,22 +2208,16 @@
         :root[data-theme="light"] .top-bar-app #themeToggleTop:hover,
         :root[data-theme="light"] .top-bar-app #btnShare:hover,
         :root[data-theme="light"] .top-bar-app #btnNotify:hover {
-            background: transparent !important; /* Sem fundo */
-            border: none !important; /* Sem borda */
-            box-shadow: none !important; /* Sem sombra */
+            background: initial !important; /* Permitir background personalizado */
+            border: initial !important; /* Permitir border personalizada */
+            box-shadow: initial !important; /* Permitir shadow personalizada */
         }
-        .top-bar-app .login-button:hover,
-        body[data-theme="light"] .top-bar-app .login-button:hover,
-        :root[data-theme="light"] .top-bar-app .login-button:hover {
-            border: none !important; /* Sem borda */
-            color: #66BB6A !important; /* Apenas cor */
+        .top-bar-app .login-button:hover {
+            color: #66BB6A !important; /* Apenas cor para tema escuro */
         }
 
-        .top-bar-app .premium-button:hover,
-        body[data-theme="light"] .top-bar-app .premium-button:hover,
-        :root[data-theme="light"] .top-bar-app .premium-button:hover {
-            border: none !important; /* Sem borda */
-            color: #FFD54F !important; /* Apenas cor */
+        .top-bar-app .premium-button:hover {
+            color: #FFD54F !important; /* Apenas cor para tema escuro */
         }
 
         .top-bar-app #themeToggleTop:hover,
@@ -2387,7 +2452,7 @@
         #themeToggleTop {
             background: transparent !important; /* Sem background */
             border: none !important; /* Sem border */
-            color: var(--text-color) !important; /* Cor dinâmica baseada no tema */
+            color: #2196F3 !important; /* COR FIXA AZUL para visibilidade */
             padding: 12px;
             border-radius: 0 !important; /* Sem bordas por padrão */
             font-size: 1.4rem;
@@ -2403,7 +2468,7 @@
 
         #themeToggleTop:hover {
             background: transparent !important; /* Sem fundo no hover */
-            color: var(--accent-color) !important; /* Apenas cor de destaque */
+            color: #42A5F5 !important; /* Azul mais claro no hover */
             transform: translateY(-2px) scale(1.01) !important; /* Movimento mais suave */
             box-shadow: none !important; /* Sem sombra */
             border-radius: 0 !important; /* Sem bordas arredondadas */
@@ -2413,7 +2478,7 @@
         #btnShare {
             background: transparent !important; /* Sem background */
             border: none !important; /* Sem border */
-            color: var(--text-color) !important; /* Cor do texto dinâmica */
+            color: #FF9800 !important; /* COR FIXA LARANJA para visibilidade */
             padding: 12px;
             border-radius: 0; /* Sem bordas por padrão */
             cursor: pointer;
@@ -2428,7 +2493,7 @@
 
         #btnShare:hover {
             background: transparent !important; /* Sem fundo no hover */
-            color: var(--accent-color) !important; /* Apenas cor de destaque */
+            color: #FFB74D !important; /* Laranja mais claro no hover */
             transform: translateY(-2px) scale(1.01) !important; /* Movimento mais suave */
             box-shadow: none !important; /* Sem sombra */
             border-radius: 0 !important; /* Sem bordas arredondadas */
@@ -2440,11 +2505,18 @@
             transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
+        /* === FORÇA COR ESPECÍFICA DO SVG DO SHARE NO TEMA LIGHT === */
+        body[data-theme="light"] #btnShare svg,
+        :root[data-theme="light"] #btnShare svg {
+            stroke: #FF9800 !important; /* Força laranja escuro no tema light */
+            color: #FF9800 !important;
+        }
+
         /* === BOTÃO NOTIFICAÇÃO LIVRE ULTRA-MODERNO === */
         #btnNotify {
             background: transparent !important; /* Sem background */
             border: none !important; /* Sem border */
-            color: var(--text-color) !important; /* Cor do texto dinâmica */
+            color: #E91E63 !important; /* COR FIXA ROSA para visibilidade */
             padding: 12px;
             border-radius: 0; /* Sem bordas por padrão */
             cursor: pointer;
@@ -2459,7 +2531,7 @@
 
         #btnNotify:hover {
             background: transparent !important; /* Sem fundo no hover */
-            color: var(--accent-color) !important; /* Apenas cor de destaque */
+            color: #F06292 !important; /* Rosa mais claro no hover */
             transform: translateY(-2px) scale(1.01) !important; /* Movimento mais suave */
             box-shadow: none !important; /* Sem sombra */
             border-radius: 0 !important; /* Sem bordas arredondadas */
@@ -2471,6 +2543,18 @@
             width: 26px;
             height: 26px;
             transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* === FORÇA CORES ESPECÍFICAS DOS SVGs NO TEMA LIGHT === */
+        body[data-theme="light"] #btnNotify svg,
+        :root[data-theme="light"] #btnNotify svg {
+            stroke: #E91E63 !important; /* Rosa vibrante no tema light */
+            color: #E91E63 !important;
+        }
+
+        body[data-theme="light"] #themeToggleTop,
+        :root[data-theme="light"] #themeToggleTop {
+            color: #2196F3 !important; /* Azul vibrante no tema light */
         }
 
         /* === MODAL DE LOGIN ULTRA MODERNO === */
@@ -5398,9 +5482,15 @@
                     return false;
                 });
                 
-                // Garante que não haja interrupções
+                // Garante que não haja interrupções - LOOP INFINITO
                 video.addEventListener('pause', function() {
-                    setTimeout(forcePlay, 100);
+                    setTimeout(forcePlay, 50);
+                });
+                
+                // Garante restart automático quando termina
+                video.addEventListener('ended', function() {
+                    video.currentTime = 0;
+                    forcePlay();
                 });
                 
                 // Otimização para apresentação empresarial
@@ -5423,6 +5513,14 @@
                     }
                 });
                 
+                // Loop infinito - verifica a cada segundo se está rodando
+                setInterval(function() {
+                    if (video.paused || video.ended) {
+                        video.currentTime = 0;
+                        forcePlay();
+                    }
+                }, 1000);
+                
                 // Inicializa com opacidade 0 para transição suave
                 video.style.opacity = '0';
                 
@@ -5437,5 +5535,4 @@
     <script src="script.js"></script>
     <script src="payment.js"></script>
 </body>
-</html>
 </html>
