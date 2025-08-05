@@ -5532,6 +5532,245 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    
+    <!-- Script de Compatibilidade Mobile/PC -->
+    <script>
+        // ===== DETECÇÃO DE DISPOSITIVO E COMPATIBILIDADE =====
+        
+        // Detectar tipo de dispositivo
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        // Adicionar classes ao body para CSS responsivo
+        document.body.classList.add(isMobile ? 'mobile-device' : 'desktop-device');
+        if (isIOS) document.body.classList.add('ios-device');
+        if (isAndroid) document.body.classList.add('android-device');
+        if (isTouchDevice) document.body.classList.add('touch-device');
+        
+        // ===== FUNÇÃO UNIVERSAL PARA EVENTOS TOUCH/CLICK =====
+        function addUniversalClickEvent(element, callback, options = {}) {
+            if (!element) return;
+            
+            if (isTouchDevice) {
+                // Para dispositivos touch, usar touchstart para resposta mais rápida
+                element.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    callback(e);
+                }, { passive: false, ...options });
+            } else {
+                // Para desktop, usar click normal
+                element.addEventListener('click', callback, options);
+            }
+        }
+        
+        // ===== MELHORIAS PARA INPUTS EM MOBILE =====
+        function optimizeInputsForMobile() {
+            const inputs = document.querySelectorAll('input, textarea, select');
+            
+            inputs.forEach(input => {
+                // Prevenir zoom em iOS quando focando inputs
+                if (isIOS) {
+                    input.addEventListener('focus', function() {
+                        const viewport = document.querySelector('meta[name="viewport"]');
+                        if (viewport) {
+                            viewport.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+                        }
+                    });
+                    
+                    input.addEventListener('blur', function() {
+                        const viewport = document.querySelector('meta[name="viewport"]');
+                        if (viewport) {
+                            viewport.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+                        }
+                    });
+                }
+                
+                // Adicionar atributos específicos para mobile
+                if (isMobile) {
+                    if (input.type === 'number' || input.inputMode === 'numeric') {
+                        input.inputMode = 'decimal';
+                        input.pattern = '[0-9]*';
+                    }
+                    
+                    // Melhorar teclado para campos de texto
+                    if (input.type === 'text' && !input.inputMode) {
+                        input.autocomplete = 'off';
+                        input.autocorrect = 'off';
+                        input.autocapitalize = 'off';
+                        input.spellcheck = false;
+                    }
+                }
+            });
+        }
+        
+        // ===== OTIMIZAÇÕES DE PERFORMANCE PARA MOBILE =====
+        function optimizePerformanceForMobile() {
+            if (isMobile) {
+                // Reduzir animações em dispositivos móveis mais lentos
+                const style = document.createElement('style');
+                style.textContent = `
+                    @media (max-width: 768px) {
+                        * {
+                            animation-duration: 0.2s !important;
+                            transition-duration: 0.2s !important;
+                        }
+                        
+                        .fade-in, .slide-in, .zoom-in {
+                            animation-duration: 0.1s !important;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Debounce para eventos de scroll em mobile
+                let scrollTimeout;
+                window.addEventListener('scroll', function() {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        // Processar scroll events aqui se necessário
+                    }, 100);
+                }, { passive: true });
+            }
+        }
+        
+        // ===== MELHORIAS PARA REPRODUÇÃO DE VÍDEO EM MOBILE =====
+        function optimizeVideoForMobile() {
+            const videos = document.querySelectorAll('video');
+            
+            videos.forEach(video => {
+                if (isMobile) {
+                    // Configurações específicas para mobile
+                    video.setAttribute('playsinline', 'true');
+                    video.setAttribute('webkit-playsinline', 'true');
+                    video.muted = true; // Necessário para autoplay em mobile
+                    
+                    // Para iOS, aguardar interação do usuário
+                    if (isIOS) {
+                        const playVideo = () => {
+                            video.play().catch(e => {
+                                console.log('Autoplay bloqueado, aguardando interação:', e);
+                            });
+                        };
+                        
+                        // Tentar reproduzir após primeira interação
+                        document.addEventListener('touchstart', playVideo, { once: true });
+                        document.addEventListener('click', playVideo, { once: true });
+                    }
+                }
+            });
+        }
+        
+        // ===== MELHORIAS PARA PWA EM MOBILE =====
+        function optimizePWAForMobile() {
+            // Detectar se está rodando como PWA
+            const isPWA = window.matchMedia('(display-mode: standalone)').matches ||
+                         window.navigator.standalone ||
+                         document.referrer.includes('android-app://');
+            
+            if (isPWA) {
+                document.body.classList.add('pwa-mode');
+                
+                // Ajustar viewport para PWA
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (viewport && isMobile) {
+                    viewport.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover';
+                }
+            }
+            
+            // Melhorar experiência de instalação
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Mostrar botão de instalação customizado se necessário
+                const installButton = document.getElementById('install-button');
+                if (installButton) {
+                    installButton.style.display = 'block';
+                    installButton.addEventListener('click', () => {
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then((choiceResult) => {
+                            deferredPrompt = null;
+                            installButton.style.display = 'none';
+                        });
+                    });
+                }
+            });
+        }
+        
+        // ===== CORREÇÕES ESPECÍFICAS PARA DIFERENTES NAVEGADORES =====
+        function applyBrowserSpecificFixes() {
+            // Fix para Safari iOS
+            if (isIOS) {
+                // Prevenir bounce scroll
+                document.addEventListener('touchmove', function(e) {
+                    if (e.target.closest('.scrollable')) return;
+                    e.preventDefault();
+                }, { passive: false });
+                
+                // Fix para altura da viewport em iOS
+                const setVH = () => {
+                    const vh = window.innerHeight * 0.01;
+                    document.documentElement.style.setProperty('--vh', `${vh}px`);
+                };
+                setVH();
+                window.addEventListener('resize', setVH);
+                window.addEventListener('orientationchange', setVH);
+            }
+            
+            // Fix para Android
+            if (isAndroid) {
+                // Melhorar performance de scroll
+                document.addEventListener('touchmove', function(e) {
+                    // Permitir scroll natural
+                }, { passive: true });
+            }
+        }
+        
+        // ===== INICIALIZAÇÃO =====
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Inicializando compatibilidade mobile/PC...');
+            console.log('Dispositivo detectado:', {
+                isMobile,
+                isIOS,
+                isAndroid,
+                isTouchDevice,
+                userAgent: navigator.userAgent
+            });
+            
+            optimizeInputsForMobile();
+            optimizePerformanceForMobile();
+            optimizeVideoForMobile();
+            optimizePWAForMobile();
+            applyBrowserSpecificFixes();
+            
+            // Expor funções globalmente
+            window.isMobile = isMobile;
+            window.isIOS = isIOS;
+            window.isAndroid = isAndroid;
+            window.isTouchDevice = isTouchDevice;
+            window.addUniversalClickEvent = addUniversalClickEvent;
+            
+            console.log('✅ Compatibilidade mobile/PC inicializada com sucesso!');
+        });
+        
+        // ===== GESTÃO DE ORIENTAÇÃO EM MOBILE =====
+        if (isMobile) {
+            window.addEventListener('orientationchange', function() {
+                // Aguardar a mudança de orientação ser completada
+                setTimeout(function() {
+                    // Forçar recálculo de layouts
+                    window.dispatchEvent(new Event('resize'));
+                    
+                    // Rolar para o topo para evitar problemas de layout
+                    window.scrollTo(0, 0);
+                }, 500);
+            });
+        }
+    </script>
+    
     <script src="script.js"></script>
     <script src="payment.js"></script>
 </body>

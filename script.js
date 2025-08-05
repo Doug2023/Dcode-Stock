@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM carregado, iniciando aplicação...');
     
+    // ===== INICIALIZAÇÃO DE COMPATIBILIDADE MOBILE/PC =====
+    initializeMobileCompatibility();
+    
     // ===== FUNÇÃO UTILITÁRIA PARA FILTRAR UNDEFINED =====
     function filterUndefined(value, defaultValue = '') {
         if (value === undefined || value === null || value === 'undefined' || String(value).toLowerCase() === 'undefined') {
@@ -2948,6 +2951,181 @@ function listarTodosUsuarios() {
         
         console.log('✅ Todos os dados foram salvos com sucesso');
     }
+
+    // ===== FUNÇÃO DE INICIALIZAÇÃO DE COMPATIBILIDADE MOBILE/PC =====
+    function initializeMobileCompatibility() {
+        console.log('🔧 Inicializando compatibilidade mobile/PC...');
+        
+        // Aguardar que as variáveis globais de detecção estejam disponíveis
+        setTimeout(() => {
+            if (typeof window.isMobile !== 'undefined') {
+                console.log('📱 Dispositivo detectado:', {
+                    isMobile: window.isMobile,
+                    isIOS: window.isIOS,
+                    isAndroid: window.isAndroid,
+                    isTouchDevice: window.isTouchDevice
+                });
+                
+                // Aplicar melhorias específicas para mobile
+                if (window.isMobile) {
+                    applyMobileEnhancements();
+                }
+                
+                // Aplicar melhorias específicas para desktop
+                if (!window.isMobile) {
+                    applyDesktopEnhancements();
+                }
+                
+                // Melhorar eventos de botões para touch/click universal
+                enhanceButtonEvents();
+                
+                // Otimizar inputs para mobile
+                optimizeInputsForDevice();
+                
+                console.log('✅ Compatibilidade mobile/PC inicializada!');
+            } else {
+                console.log('⚠️ Aguardando detecção de dispositivo...');
+                // Tentar novamente após mais tempo
+                setTimeout(initializeMobileCompatibility, 1000);
+            }
+        }, 100);
+    }
+    
+    function applyMobileEnhancements() {
+        console.log('📱 Aplicando melhorias para mobile...');
+        
+        // Melhorar tabelas para mobile
+        const tables = document.querySelectorAll('table');
+        tables.forEach(table => {
+            table.style.fontSize = '14px';
+            table.style.overflowX = 'auto';
+            table.style.webkitOverflowScrolling = 'touch';
+        });
+        
+        // Melhorar modais para mobile
+        const modals = document.querySelectorAll('.modal, .modal-content');
+        modals.forEach(modal => {
+            modal.style.maxHeight = '90vh';
+            modal.style.overflowY = 'auto';
+            modal.style.webkitOverflowScrolling = 'touch';
+        });
+        
+        // Prevenir zoom em inputs (iOS)
+        if (window.isIOS) {
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                if (input.style.fontSize !== '16px') {
+                    input.style.fontSize = '16px';
+                }
+            });
+        }
+        
+        // Melhorar área de toque dos botões
+        const buttons = document.querySelectorAll('button, .btn');
+        buttons.forEach(button => {
+            if (window.getComputedStyle(button).minHeight === 'auto') {
+                button.style.minHeight = '44px';
+                button.style.minWidth = '44px';
+            }
+        });
+    }
+    
+    function applyDesktopEnhancements() {
+        console.log('🖥️ Aplicando melhorias para desktop...');
+        
+        // Melhorar hover effects para desktop
+        const interactiveElements = document.querySelectorAll('button, .btn, a, .clickable');
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.transition = 'transform 0.2s ease';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Adicionar atalhos de teclado para desktop
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+N para novo item
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                const addButton = document.querySelector('#btnNovoEstoque');
+                if (addButton) addButton.click();
+            }
+            
+            // Ctrl+S para salvar (prevenir comportamento padrão)
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                console.log('💾 Dados salvos automaticamente');
+            }
+            
+            // Esc para fechar modais
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal[style*="display: block"], .modal.show');
+                modals.forEach(modal => {
+                    const closeBtn = modal.querySelector('.close, .btn-close');
+                    if (closeBtn) closeBtn.click();
+                });
+            }
+        });
+    }
+    
+    function enhanceButtonEvents() {
+        console.log('🔘 Melhorando eventos de botões...');
+        
+        // Aplicar feedback visual para todos os botões
+        const allButtons = document.querySelectorAll('button, .btn');
+        allButtons.forEach(button => {
+            // Feedback visual para touch/click
+            button.addEventListener(window.isTouchDevice ? 'touchstart' : 'mousedown', function() {
+                this.style.transform = 'scale(0.95)';
+                this.style.transition = 'transform 0.1s ease';
+            });
+            
+            button.addEventListener(window.isTouchDevice ? 'touchend' : 'mouseup', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    }
+    
+    function optimizeInputsForDevice() {
+        console.log('⌨️ Otimizando inputs para dispositivo...');
+        
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            // Melhorar inputs numéricos para mobile
+            if (input.type === 'number' && window.isMobile) {
+                input.inputMode = 'decimal';
+                input.pattern = '[0-9]*';
+            }
+            
+            // Melhorar autocomplete e correção para mobile
+            if (window.isMobile) {
+                if (input.type === 'text' || input.tagName === 'TEXTAREA') {
+                    input.autocomplete = 'off';
+                    input.autocorrect = 'off';
+                    input.autocapitalize = 'off';
+                    input.spellcheck = false;
+                }
+            }
+            
+            // Adicionar feedback visual melhorado
+            input.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--accent-color)';
+                this.style.boxShadow = '0 0 5px rgba(var(--accent-rgb), 0.3)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.style.borderColor = '';
+                this.style.boxShadow = '';
+            });
+        });
+    }
+    
+    // Expor função globalmente para uso em outros scripts
+    window.initializeMobileCompatibility = initializeMobileCompatibility;
 
     // Expor função globalmente para o botão Premium
     window.showPaymentModal = showPaymentModal;
