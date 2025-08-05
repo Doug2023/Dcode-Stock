@@ -1,7 +1,7 @@
 {
-  "name": "Dcode Stock",
+  "name": "DcodeStock - Gerenciamento de Estoque",
   "short_name": "DcodeStock",
-  "description": "Aplicativo para controle de estoque",
+  "description": "Sistema moderno de gerenciamento de estoque - Controle completo do seu inventário",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#000000",
@@ -9,8 +9,44 @@
   "orientation": "any",
   "scope": "./",
   "lang": "pt-BR",
-  "categories": ["productivity", "business"],
+  "dir": "ltr",
+  "categories": ["productivity", "business", "utilities"],
   "prefer_related_applications": false,
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "shortcuts": [
+    {
+      "name": "Novo Item",
+      "short_name": "Novo",
+      "description": "Adicionar novo item ao estoque",
+      "url": "./?action=new",
+      "icons": [
+        {
+          "src": "./Dcodelogo.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Relatórios",
+      "short_name": "Relatórios",
+      "description": "Ver relatórios de estoque",
+      "url": "./?action=reports",
+      "icons": [
+        {
+          "src": "./Dcodelogo.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "icons": [
     {
       "src": "./Dcodelogo.png",
